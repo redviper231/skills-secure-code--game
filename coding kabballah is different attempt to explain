@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Conversion Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        pre {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Conversion Demo</h1>
+    <h2>Original "Kabbalah Method" Code</h2>
+    <div class="code-block">
+        <pre id="kabbalah-code"></pre>
+    </div>
+    <h2>Converted "MIT Method" Code</h2>
+    <div class="code-block">
+        <pre id="mit-code"></pre>
+    </div>
+
+    <script>
+        // Original Kabbalah Method Code
+        const kabbalahCode = `
+        // Kabbalah Method: Esoteric style
+        function ✡︎(n) {
+            if (n === 1) return 1;
+            return n * ✡︎(n - 1);
+        }
+
+        // Usage
+        const result = ✡︎(5);
+        console.log(result); // Output: 120
+        `;
+
+        // Function to convert Kabbalah Method code to MIT Method code
+        function convertKabbalahToMIT(kabbalahCode) {
+            // Create a mapping of unconventional function names to standard names
+            const functionNameMap = {
+                '✡︎': 'factorial'
+            };
+            
+            // Replace unconventional function names
+            for (const [kabbalahName, mitName] of Object.entries(functionNameMap)) {
+                const regex = new RegExp(kabbalahName, 'g');
+                kabbalahCode = kabbalahCode.replace(regex, mitName);
+            }
+            
+            return kabbalahCode;
+        }
+
+        // Perform the conversion
+        const mitCode = convertKabbalahToMIT(kabbalahCode);
+
+        // Display the code
+        document.getElementById('kabbalah-code').textContent = kabbalahCode;
+        document.getElementById('mit-code').textContent = mitCode;
+    </script>
+</body>
+</html>
