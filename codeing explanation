@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Design Patterns Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .pattern {
+            margin-bottom: 40px;
+        }
+        .output {
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Design Patterns Demo</h1>
+
+    <!-- Singleton Pattern -->
+    <div class="pattern" id="singleton-pattern">
+        <h2>Singleton Pattern</h2>
+        <p><strong>Purpose:</strong> Ensure a class has only one instance and provide a global point of access to it.</p>
+        <p><strong>Real-world Analogy:</strong> Think of a CEO of a company. There’s only one CEO, and everyone knows how to reach this person.</p>
+        <button onclick="createSingletonInstance()">Create Singleton Instance</button>
+        <div class="output" id="singleton-output"></div>
+    </div>
+
+    <!-- Factory Pattern -->
+    <div class="pattern" id="factory-pattern">
+        <h2>Factory Pattern</h2>
+        <p><strong>Purpose:</strong> Define an interface for creating an object, but let subclasses alter the type of objects that will be created.</p>
+        <p><strong>Real-world Analogy:</strong> Think of a factory that makes different types of cars.</p>
+        <select id="car-type">
+            <option value="Sedan">Sedan</option>
+            <option value="SUV">SUV</option>
+        </select>
+        <button onclick="createCar()">Create Car</button>
+        <div class="output" id="factory-output"></div>
+    </div>
+
+    <!-- Observer Pattern -->
+    <div class="pattern" id="observer-pattern">
+        <h2>Observer Pattern</h2>
+        <p><strong>Purpose:</strong> Define a one-to-many dependency so that when one object changes state, all its dependents are notified.</p>
+        <p><strong>Real-world Analogy:</strong> Think of a subscription service where users get notified of new issues.</p>
+        <button onclick="subscribe()">Subscribe</button>
+        <button onclick="notifyObservers()">Notify Observers</button>
+        <div class="output" id="observer-output"></div>
+    </div>
+
+    <script>
+        // Singleton Pattern
+        class Singleton {
+            constructor() {
+                if (Singleton.instance) {
+                    return Singleton.instance;
+                }
+                Singleton.instance = this;
+            }
+
+            getInstance() {
+                return this;
+            }
+        }
+
+        function createSingletonInstance() {
+            const instance = new Singleton().getInstance();
+            document.getElementById('singleton-output').innerText = `Instance: ${instance}`;
+        }
+
+        // Factory Pattern
+        class CarFactory {
+            createCar(type) {
+                if (type === "Sedan") {
+                    return new Sedan();
+                } else if (type === "SUV") {
+                    return new SUV();
+                }
+            }
+        }
+
+        class Sedan {
+            constructor() {
+                this.type = "Sedan";
+            }
+        }
+
+        class SUV {
+            constructor() {
+                this.type = "SUV";
+            }
+        }
+
+        function createCar() {
+            const carType = document.getElementById('car-type').value;
+            const carFactory = new CarFactory();
+            const car = carFactory.createCar(carType);
+            document.getElementById('factory-output').innerText = `Created Car: ${car.type}`;
+        }
+
+        // Observer Pattern
+        class Subject {
+            constructor() {
+                this.observers = [];
+            }
+
+            attach(observer) {
+                this.observers.push(observer);
+            }
+
+            notify() {
+                this.observers.forEach(observer => observer.update());
+            }
+        }
+
+        class Observer {
+            update() {
+                document.getElementById('observer-output').innerText += 'Observer notified!\n';
+            }
+        }
+
+        const subject = new Subject();
+
+        function subscribe() {
+            const observer = new Observer();
+            subject.attach(observer);
+            document.getElementById('observer-output').innerText += 'Subscribed an observer.\n';
+        }
+
+        function notifyObservers() {
+            subject.notify();
+        }
+    </script>
+</body>
+</html>
